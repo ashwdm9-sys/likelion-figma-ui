@@ -10,7 +10,7 @@ import ScriptCard from '../components/ScriptCard'
 import { scriptCards } from '../data/mockData'
 import { 
   SearchIcon, BellIcon, HomeIcon, ScriptIcon, 
-  CalendarIcon, UserIcon, CloseIcon, PlusIcon, FabIcon
+  CalendarIcon, UserIcon, CloseIcon, FabIcon
 } from '../components/Icons'
 
 export default function HomeScreen() {

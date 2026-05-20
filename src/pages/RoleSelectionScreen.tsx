@@ -130,11 +130,11 @@ function BottomNav({
     >
       <div className="flex items-center" style={{ gap: 32, paddingLeft: 35, paddingTop: 8 }}>
         {([
-          { key: 'home', label: '홈', Icon: HomeIcon, onClick: onHomeClick },
-          { key: 'script', label: '대본', Icon: ScriptIcon },
-          { key: 'calendar', label: '캘린더', Icon: CalendarIcon },
-          { key: 'mypage', label: '마이페이지', Icon: UserIcon },
-        ] as const).map(({ key, label, Icon, onClick }) => (
+          { key: 'home' as const, label: '홈', Icon: HomeIcon, onClick: onHomeClick as (() => void) | undefined },
+          { key: 'script' as const, label: '대본', Icon: ScriptIcon, onClick: undefined },
+          { key: 'calendar' as const, label: '캘린더', Icon: CalendarIcon, onClick: undefined },
+          { key: 'mypage' as const, label: '마이페이지', Icon: UserIcon, onClick: undefined },
+        ]).map(({ key, label, Icon, onClick }) => (
           <button
             key={key}
             className="flex flex-col items-center gap-1 cursor-pointer"
