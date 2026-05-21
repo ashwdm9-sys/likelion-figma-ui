@@ -1,5 +1,13 @@
 import { useState } from 'react'
 import { SearchIcon, BellIcon, HomeIcon, ScriptIcon, CalendarIcon, UserIcon, SmallUserIcon } from '../components/Icons'
+import { INITIAL_ROLES, SCRIPT_TITLE } from '../data/mockScript'
+
+const MOCK_SCRIPTS = [
+  {
+    title: SCRIPT_TITLE,
+    characters: INITIAL_ROLES.map(r => `${r.name}(${r.description})`),
+  },
+]
 
 export default function AddScriptScreen({
   onBack,
@@ -14,6 +22,7 @@ export default function AddScriptScreen({
 }) {
   const [scriptTitle, setScriptTitle] = useState('')
   const [titleFocused, setTitleFocused] = useState(false)
+  const [showFilePicker, setShowFilePicker] = useState(false)
 
   return (
     <div className="relative w-full" style={{ minHeight: '100vh', background: '#fff' }}>
@@ -138,12 +147,61 @@ export default function AddScriptScreen({
           borderRadius: 8,
           zIndex: 40,
         }}
-        onClick={() => onNavigateToRoles([])}
+        onClick={() => setShowFilePicker(true)}
       >
         <span style={{ fontFamily: 'Noto Sans KR', fontSize: 18, color: '#FFFFFF', fontWeight: 400 }}>
           파일 첨부
         </span>
       </button>
+
+      {/* ── 파일 선택 바텀 시트 ── */}
+      {showFilePicker && (
+        <>
+          <div
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 60 }}
+            onClick={() => setShowFilePicker(false)}
+          />
+          <div
+            style={{
+              position: 'fixed', bottom: 0,
+              left: '50%', transform: 'translateX(-50%)',
+              width: 390, zIndex: 61,
+              background: '#fff',
+              borderRadius: '16px 16px 0 0',
+              padding: '20px 0 40px',
+            }}
+          >
+            <div style={{ padding: '0 20px 16px', borderBottom: '1px solid #F2F4F8' }}>
+              <span style={{ fontFamily: 'Noto Sans KR', fontSize: 16, fontWeight: 700, color: '#191D1F' }}>
+                대본 선택
+              </span>
+            </div>
+            {MOCK_SCRIPTS.map(script => (
+              <button
+                key={script.title}
+                style={{
+                  width: '100%', display: 'flex', alignItems: 'center',
+                  gap: 12, padding: '16px 20px',
+                  background: 'transparent', border: 'none', cursor: 'pointer',
+                  textAlign: 'left',
+                }}
+                onClick={() => {
+                  setShowFilePicker(false)
+                  onNavigateToRoles(script.characters)
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <rect x="4" y="2" width="14" height="18" rx="2" stroke="#DD373D" strokeWidth="2" />
+                  <path d="M8 7h8M8 11h8M8 15h5" stroke="#DD373D" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                <span style={{ fontFamily: 'Noto Sans KR', fontSize: 16, color: '#191D1F' }}>
+                  {script.title}
+                </span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* ── Bottom Navigation Bar ── */}
       <div

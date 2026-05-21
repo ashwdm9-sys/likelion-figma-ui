@@ -200,7 +200,7 @@ export default function RoleSelectionScreen({
         <div style={{ marginLeft: 16, marginRight: 16 }}>
 
           {/* ── 내 배역 ── */}
-          <SectionHeader label="내 배역" withBorder />
+          <SectionHeader label="내 배역" />
 
           {/* Selected roles (내 배역) */}
           <div style={{ background: '#fff', minHeight: 52 }}>

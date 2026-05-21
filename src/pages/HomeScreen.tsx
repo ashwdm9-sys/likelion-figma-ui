@@ -38,7 +38,7 @@ export default function HomeScreen() {
     <RoleSelectionScreen
       characters={roleCharacters}
       onBack={() => setScreen('add-script')}
-      onPractice={() => navigate('/script')}
+      onPractice={(myRoles) => navigate('/script', { state: { myRoles } })}
       activeNav={activeNav}
       setActiveNav={setActiveNav}
     />

@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import type { Role } from '../types';
 import { INITIAL_ROLES, SCRIPT_LINES, SCRIPT_TITLE } from '../data/mockScript';
 import TopBar from '../components/TopBar';
@@ -44,9 +44,24 @@ function generateRandomColors(roles: Role[]): Role[] {
   }));
 }
 
+function buildInitialRoles(myRoles: string[]): Role[] {
+  const shuffled = [...ROLE_COLOR_PALETTE].sort(() => Math.random() - 0.5);
+  let colorIdx = 0;
+  return INITIAL_ROLES.map(r => {
+    const key = `${r.name}(${r.description})`;
+    const isMyRole = myRoles.includes(key);
+    return { ...r, isMyRole, color: isMyRole ? shuffled[colorIdx++ % shuffled.length] : '#888888' };
+  });
+}
+
 export default function ScriptPracticePage() {
   const navigate = useNavigate();
-  const [roles, setRoles] = useState<Role[]>(INITIAL_ROLES);
+  const location = useLocation();
+  const selectedMyRoles: string[] = (location.state as { myRoles?: string[] } | null)?.myRoles ?? [];
+
+  const [roles, setRoles] = useState<Role[]>(() =>
+    selectedMyRoles.length > 0 ? buildInitialRoles(selectedMyRoles) : INITIAL_ROLES
+  );
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [displayedRoleIds, setDisplayedRoleIds] = useState<Set<string>>(new Set());
   const [currentBoldIndex, setCurrentBoldIndex] = useState(0);
