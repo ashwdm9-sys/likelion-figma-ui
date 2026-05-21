@@ -10,7 +10,7 @@ import ScriptCard from '../components/ScriptCard'
 import { scriptCards } from '../data/mockData'
 import { 
   SearchIcon, BellIcon, HomeIcon, ScriptIcon, 
-  CalendarIcon, UserIcon, CloseIcon, FabIcon
+  CalendarIcon, UserIcon, FabIcon, FabIconRed
 } from '../components/Icons'
 
 export default function HomeScreen() {
@@ -156,21 +156,10 @@ export default function HomeScreen() {
 
       <button
         className="fixed z-50 flex items-center justify-center transition-transform active:scale-95"
-        style={{
-          width: 64, height: 64, bottom: 104, right: 'calc(50% - 195px + 16px)',
-          ...(fabOpen
-            ? { background: '#191D1F', borderRadius: '50%', boxShadow: '0px 4px 16px rgba(204,14,26,0.4)' }
-            : { background: 'transparent' }
-          ),
-        }}
+        style={{ width: 64, height: 64, bottom: 104, right: 'calc(50% - 195px + 16px)', background: 'transparent' }}
         onClick={() => setFabOpen((v) => !v)}
       >
-        <div
-          className="transition-transform duration-300"
-          style={{ transform: fabOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}
-        >
-          {fabOpen ? <CloseIcon /> : <FabIcon />}
-        </div>
+        {fabOpen ? <FabIcon /> : <FabIconRed />}
       </button>
 
       {fabOpen && (

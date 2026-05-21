@@ -69,6 +69,20 @@ export function FabIcon() {
   )
 }
 
+export function FabIconRed() {
+  return (
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fab_red_gradient" x1="26" y1="8" x2="26" y2="56" gradientUnits="userSpaceOnUse">
+          <stop offset="0.0288462" stopColor="#FFE6CF"/>
+          <stop offset="1" stopColor="#CC0E1A"/>
+        </linearGradient>
+      </defs>
+      <path d="M45.3333 34.6667H34.6667V45.3333H29.3333V34.6667H18.6667V29.3333H29.3333V18.6667H34.6667V29.3333H45.3333M50.6667 8H13.3333C10.3733 8 8 10.3733 8 13.3333V50.6667C8 52.0812 8.5619 53.4377 9.5621 54.4379C10.5623 55.4381 11.9188 56 13.3333 56H50.6667C52.0812 56 53.4377 55.4381 54.4379 54.4379C55.4381 53.4377 56 52.0812 56 50.6667V13.3333C56 11.9188 55.4381 10.5623 54.4379 9.5621C53.4377 8.5619 52.0812 8 50.6667 8Z" fill="url(#fab_red_gradient)"/>
+    </svg>
+  )
+}
+
 export function CloseIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

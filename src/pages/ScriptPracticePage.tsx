@@ -1,4 +1,5 @@
 import { useState, useRef, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Role } from '../types';
 import { INITIAL_ROLES, SCRIPT_LINES, SCRIPT_TITLE } from '../data/mockScript';
 import TopBar from '../components/TopBar';
@@ -13,6 +14,28 @@ const ROLE_COLOR_PALETTE = [
 ];
 
 
+function hexToRgb(hex: string): [number, number, number] {
+  const n = parseInt(hex.slice(1), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+function colorDistance(a: string, b: string): number {
+  const [r1, g1, b1] = hexToRgb(a);
+  const [r2, g2, b2] = hexToRgb(b);
+  return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+}
+
+function pickDistinctColor(usedColors: string[]): string {
+  const unused = ROLE_COLOR_PALETTE.filter(c => !usedColors.includes(c));
+  const candidates = unused.length > 0 ? unused : ROLE_COLOR_PALETTE;
+  if (usedColors.length === 0) return candidates[Math.floor(Math.random() * candidates.length)];
+  return candidates.reduce((best, c) => {
+    const minDist = Math.min(...usedColors.map(u => colorDistance(c, u)));
+    const bestDist = Math.min(...usedColors.map(u => colorDistance(best, u)));
+    return minDist > bestDist ? c : best;
+  });
+}
+
 function generateRandomColors(roles: Role[]): Role[] {
   const shuffled = [...ROLE_COLOR_PALETTE].sort(() => Math.random() - 0.5);
   return roles.map((role, i) => ({
@@ -22,6 +45,7 @@ function generateRandomColors(roles: Role[]): Role[] {
 }
 
 export default function ScriptPracticePage() {
+  const navigate = useNavigate();
   const [roles, setRoles] = useState<Role[]>(INITIAL_ROLES);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [displayedRoleIds, setDisplayedRoleIds] = useState<Set<string>>(new Set());
@@ -101,8 +125,11 @@ export default function ScriptPracticePage() {
 
   // 3-4: 상대 배역 → 내 배역 이동
   const handleMoveToMy = useCallback((roleId: string) => {
-    const newColor = ROLE_COLOR_PALETTE[Math.floor(Math.random() * ROLE_COLOR_PALETTE.length)];
-    setRoles(prev => prev.map(r => r.id === roleId ? { ...r, isMyRole: true, color: newColor } : r));
+    setRoles(prev => {
+      const usedColors = prev.filter(r => r.isMyRole).map(r => r.color);
+      const newColor = pickDistinctColor(usedColors);
+      return prev.map(r => r.id === roleId ? { ...r, isMyRole: true, color: newColor } : r);
+    });
     setCurrentBoldIndex(0);
   }, []);
 
@@ -112,7 +139,7 @@ export default function ScriptPracticePage() {
 
   return (
     <div className="relative flex flex-col h-dvh max-w-[390px] mx-auto bg-white overflow-hidden">
-      <TopBar title={SCRIPT_TITLE} />
+      <TopBar title={SCRIPT_TITLE} onBack={() => navigate('/')} />
 
       <main className="flex-1 overflow-y-auto bg-white">
         <ScriptViewer

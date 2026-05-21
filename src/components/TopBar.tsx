@@ -1,5 +1,6 @@
 type Props = {
   title: string;
+  onBack?: () => void;
 };
 
 // Figma top_arrow: path (15,5)→(9,12)→(15,19) in 24×24, stroke 1.5px
@@ -19,7 +20,7 @@ function SearchIcon() {
   );
 }
 
-export default function TopBar({ title }: Props) {
+export default function TopBar({ title, onBack }: Props) {
   return (
     <header
       className="flex-none flex flex-col items-center justify-end bg-white px-[10px] py-[16px] gap-[10px]"
@@ -40,7 +41,7 @@ export default function TopBar({ title }: Props) {
 
       {/* Figma: justify-center + gap-[278px] + px-[19px] */}
       <div className="flex gap-[278px] items-end justify-center px-[19px] w-full">
-        <button type="button" className="relative flex-none size-[24px] flex items-center justify-center">
+        <button type="button" className="relative flex-none size-[24px] flex items-center justify-center" onClick={onBack}>
           <BackArrow />
         </button>
         <button type="button" className="relative flex-none size-[24px] flex items-center justify-center">
