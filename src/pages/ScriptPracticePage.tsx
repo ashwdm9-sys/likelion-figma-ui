@@ -55,25 +55,29 @@ export default function ScriptPracticePage() {
     setCurrentBoldIndex(0);
   }, []);
 
+  const scrollToLineIfNeeded = useCallback((id: string) => {
+    const el = lineRefs.current.get(id);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const inView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+    if (!inView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
+
   // 3-5: 이전 대사
   const handlePrevLine = useCallback(() => {
     if (activeBoldLines.length === 0) return;
     const prevIndex = (currentBoldIndex - 1 + activeBoldLines.length) % activeBoldLines.length;
     setCurrentBoldIndex(prevIndex);
-    lineRefs.current
-      .get(activeBoldLines[prevIndex].id)
-      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, [activeBoldLines, currentBoldIndex]);
+    scrollToLineIfNeeded(activeBoldLines[prevIndex].id);
+  }, [activeBoldLines, currentBoldIndex, scrollToLineIfNeeded]);
 
   // 3-5: 다음 대사
   const handleNextLine = useCallback(() => {
     if (activeBoldLines.length === 0) return;
     const nextIndex = (currentBoldIndex + 1) % activeBoldLines.length;
     setCurrentBoldIndex(nextIndex);
-    lineRefs.current
-      .get(activeBoldLines[nextIndex].id)
-      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, [activeBoldLines, currentBoldIndex]);
+    scrollToLineIfNeeded(activeBoldLines[nextIndex].id);
+  }, [activeBoldLines, currentBoldIndex, scrollToLineIfNeeded]);
 
   // 3-2: 배역 설정 열기 → 랜덤 색상 재생성
   const handleOpenRoleSettings = useCallback(() => {
