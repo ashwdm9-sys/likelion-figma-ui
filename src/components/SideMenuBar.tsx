@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Role } from '../types';
 import { TROUPE_NAME, NEXT_PERFORMANCE, NEXT_REHEARSAL } from '../data/mockScript';
+import { XIcon, RoundPlusIcon } from './Icons';
 
 type Props = {
   isOpen: boolean;
@@ -290,9 +291,9 @@ function RoleRow({ role, isDisplayed, onToggleDisplay, isAddDeleteMode, actionTy
         <button
           type="button"
           onClick={onAction}
-          className="shrink-0 flex items-center justify-center size-[24px] text-gray-700 font-medium text-lg"
+          className="shrink-0 flex items-center justify-center size-[24px]"
         >
-          {actionType === 'remove' ? '×' : '+'}
+          {actionType === 'remove' ? <XIcon /> : <RoundPlusIcon />}
         </button>
       ) : (
         <button

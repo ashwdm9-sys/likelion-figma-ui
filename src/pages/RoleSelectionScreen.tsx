@@ -2,26 +2,8 @@ import { useState } from 'react'
 import {
   SearchIcon, BellIcon,
   HomeIcon, ScriptIcon, CalendarIcon, UserIcon,
+  XIcon, RoundPlusIcon,
 } from '../components/Icons'
-
-// ic:round-plus — filled red circle with white plus
-function PlusCircleIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="10" fill="#DD373D" />
-      <path d="M12 7v10M7 12h10" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-// X icon — grey cross
-function RemoveIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <path d="M6 6l12 12M18 6L6 18" stroke="#858F93" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  )
-}
 
 // ── Section header row (내 배역 / 상대 배역) ──────────────────────────────
 // Figma: bg-[#F2F4F8] h-[32px] p-[10px]. 내 배역 has border-[0.8px solid #BDBDBD], 상대 배역 has no border.
@@ -218,7 +200,7 @@ export default function RoleSelectionScreen({
                 <CharacterRow
                   key={name}
                   name={name}
-                  icon={<RemoveIcon />}
+                  icon={<XIcon />}
                   onAction={() => remove(name)}
                 />
               ))
@@ -255,7 +237,7 @@ export default function RoleSelectionScreen({
                 <CharacterRow
                   key={name}
                   name={name}
-                  icon={<PlusCircleIcon />}
+                  icon={<RoundPlusIcon />}
                   onAction={() => add(name)}
                 />
               ))
